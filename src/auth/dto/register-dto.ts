@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength, ValidateIf } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class RegisterDto {
@@ -16,9 +16,9 @@ export class RegisterDto {
   @IsNotEmpty()
   phone: string;
 
-  @IsOptional()
-  @IsString()
-  cv:string;
+  @ValidateIf(o => o.role === 'TUTOR')
+  @IsNotEmpty({ message: 'CV is required for tutors' })
+  cv?: string;
 
   @Transform(({ value }) => value.toUpperCase())
   @IsString()

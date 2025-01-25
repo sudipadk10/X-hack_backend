@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   FileTypeValidator,
@@ -26,10 +27,12 @@ export class AuthController {
   login(@Body() dto: LoginDto) {
     return this.authService.login(dto);
   }
-  @Post('register')
-  @UseInterceptors(FileInterceptor('cv'))
 
-  register(@Body() dto: RegisterDto,@UploadedFile(
+  @Post('register')
+@UseInterceptors(FileInterceptor('cv'))
+async register(
+  @Body() dto: RegisterDto,
+  @UploadedFile(
     new ParseFilePipe({
       validators: [
         new FileTypeValidator({ fileType: /(pdf|doc|docx)$/ }),
@@ -37,10 +40,15 @@ export class AuthController {
       ],
       fileIsRequired: false
     })
-  ) cvFile?: Express.Multer.File) {
-    return this.authService.register(dto,cvFile);
+  ) cvFile?: Express.Multer.File
+) {
+  // Explicit validation for tutors
+  if (dto.role === 'TUTOR' && !cvFile) {
+    throw new BadRequestException('CV is required for tutors');
   }
 
+  return this.authService.register(dto, cvFile);
+}
   @UseGuards(AuthGuard)
   @Post('logout')
   logout() {
