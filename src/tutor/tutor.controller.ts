@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Req, UseGuards } from '@nestjs/comm
 import { TutorService } from './tutor.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CreateArticleDto } from './dto/create-article.dto';
+import { Roles, RolesGuard } from 'src/auth/guards/role.guard';
 
 @Controller('tutors')
 export class TutorController {
@@ -18,7 +19,8 @@ export class TutorController {
   }
 
   @Post('articles')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard,RolesGuard)
+  @Roles('TUTOR')
   async createArticle(
     @Req() req, 
     @Body() createArticleDto: CreateArticleDto
