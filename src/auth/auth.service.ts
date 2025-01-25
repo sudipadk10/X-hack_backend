@@ -10,12 +10,14 @@ import { JwtService } from '@nestjs/jwt';
 import { verify, hash } from 'argon2';
 import { RegisterDto } from './dto/register-dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { CloudinaryService } from 'nestjs-cloudinary';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
+    private cloudinaryService: CloudinaryService
   ) {}
   async login(dto: LoginDto) {
     const user = await this.prisma.user.findUnique({
@@ -34,9 +36,19 @@ export class AuthService {
 
     return { access_token };
   }
-  async register(dto: RegisterDto) {
+  async register(dto: RegisterDto,cvFile?: Express.Multer.File) {
     try{
     const hashedPassword = await hash(dto.password);
+
+     // Upload CV for tutors if file is provided
+     let cvUploadResult = null;
+     if (dto.role === 'TUTOR' && cvFile) {
+       cvUploadResult = await this.cloudinaryService.uploadFile(cvFile, {
+         folder: 'tutor_cvs',
+         resource_type: 'raw',
+         allowed_formats: ['pdf', 'doc', 'docx']
+       });
+     }
 
     const user = await this.prisma.user.create({
       data: {
@@ -48,7 +60,7 @@ export class AuthService {
         profile: dto.role === 'TUTOR' ? {
           create: {
             fullName: dto.fullName,
-            cv: dto.cv,
+            cv: cvUploadResult?.secure_url || dto.cv,
             isVerified: false, // Tutors start as unverified
             
           }
