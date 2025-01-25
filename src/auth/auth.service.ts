@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -12,7 +11,6 @@ import { verify, hash } from 'argon2';
 import { RegisterDto } from './dto/register-dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { CloudinaryService } from 'nestjs-cloudinary';
-import { CLIENT_RENEG_LIMIT } from 'tls';
 
 @Injectable()
 export class AuthService {
@@ -45,7 +43,7 @@ export class AuthService {
 
       // Upload CV for tutors if file is provided
       let cvUploadResult = null;
-      
+
       console.log({ cvFile });
       if (dto.role === 'TUTOR' && cvFile) {
         cvUploadResult = await this.cloudinaryService.uploadFile(cvFile, {
@@ -66,7 +64,7 @@ export class AuthService {
               ? {
                   create: {
                     fullName: dto.fullName,
-                    cv: cvUploadResult?.secure_url || dto.cv,
+                    cv: cvUploadResult?.secure_url,
                     isVerified: false, // Tutors start as unverified
                   },
                 }

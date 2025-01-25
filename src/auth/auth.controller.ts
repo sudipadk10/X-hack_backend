@@ -38,16 +38,17 @@ async register(
         new FileTypeValidator({ fileType: /(pdf|doc|docx)$/ }),
         new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }) // 5MB
       ],
-      fileIsRequired: false
+      fileIsRequired: false 
     })
-  ) cvFile?: Express.Multer.File
+  ) cv?: Express.Multer.File
 ) {
+  console.log({cv})
   // Explicit validation for tutors
-  if (dto.role === 'TUTOR' && !cvFile) {
+  if (dto.role === 'TUTOR' && !cv) {
     throw new BadRequestException('CV is required for tutors');
   }
 
-  return this.authService.register(dto, cvFile);
+  return this.authService.register(dto, cv);
 }
   @UseGuards(AuthGuard)
   @Post('logout')

@@ -16,9 +16,7 @@ export class RegisterDto {
   @IsNotEmpty()
   phone: string;
 
-  @ValidateIf(o => o.role === 'TUTOR')
-  @IsNotEmpty({ message: 'CV is required for tutors' })
-  cv?: string;
+  
 
   @Transform(({ value }) => value.toUpperCase())
   @IsString()
