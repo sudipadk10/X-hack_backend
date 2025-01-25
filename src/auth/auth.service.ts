@@ -47,8 +47,7 @@ export class AuthService {
         role: dto.role,
         profile: {
           create: {
-            firstName: dto.firstName,
-            lastName: dto.lastName,
+            firstName: dto.fullName,
           },
         },
       },

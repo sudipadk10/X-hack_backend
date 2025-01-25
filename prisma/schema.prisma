@@ -16,7 +16,6 @@ datasource db {
 
 model User {
   id        String   @id @default(cuid())
-  email     String  @unique
   phone     String   @unique
   gender    Gender
   password  String
@@ -25,6 +24,7 @@ model User {
   image     String? @default("http://hancockogundiyapartners.com/management/dummy-profile-pic-300x300/")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+   
 }
 
 enum Gender {
@@ -41,8 +41,7 @@ model Profile {
   id          String    @id @default(cuid())
   userId      String    @unique
   user        User      @relation(fields: [userId], references: [id])
-  firstName   String
-  lastName    String
+  fullName   String
   subject     String[]
   basePrice   Int?
   description String?
