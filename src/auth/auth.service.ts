@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -8,6 +9,7 @@ import { LoginDto } from './dto';
 import { JwtService } from '@nestjs/jwt';
 import { verify, hash } from 'argon2';
 import { RegisterDto } from './dto/register-dto';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
 export class AuthService {
@@ -33,6 +35,7 @@ export class AuthService {
     return { access_token };
   }
   async register(dto: RegisterDto) {
+    try{
     const hashedPassword = await hash(dto.password);
 
     const user = await this.prisma.user.create({
@@ -51,7 +54,15 @@ export class AuthService {
       },
     });
     delete user.password;
-    return user;
+    return user;}
+    catch(error){
+      if (error instanceof PrismaClientKnownRequestError){
+        if(error.code==='P2002'){
+          throw new ConflictException("Email or Phone already taken.");
+        }
+      }
+    
+    }
   }
   logout() {
     return 'User Successfully logged out';
