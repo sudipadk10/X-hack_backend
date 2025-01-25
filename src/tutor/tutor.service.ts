@@ -11,8 +11,7 @@ export class TutorService {
       where: { user: { role: 'TUTOR' } },
       select: {
         id: true,
-        firstName: true,
-        lastName: true,
+        fullName:true,
         subject: true,
         basePrice: true,
         description: true,
@@ -30,8 +29,7 @@ export class TutorService {
       where: { userId: id },
       select: {
         id: true,
-        firstName: true,
-        lastName: true,
+        fullName: true,
         subject: true,
         basePrice: true,
         description: true,
