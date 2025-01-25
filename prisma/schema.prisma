@@ -16,12 +16,13 @@ datasource db {
 
 model User {
   id        String   @id @default(cuid())
-  email     String   @unique
+  email     String  @unique
   phone     String   @unique
   gender    Gender
   password  String
   role      Role
   profile   Profile?
+  image     String? @default("http://hancockogundiyapartners.com/management/dummy-profile-pic-300x300/")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
