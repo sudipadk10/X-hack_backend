@@ -44,7 +44,7 @@ export class AuthService {
       // Upload CV for tutors if file is provided
       let cvUploadResult = null;
 
-      console.log({ cvFile });
+     
       if (dto.role === 'TUTOR' && cvFile) {
         cvUploadResult = await this.cloudinaryService.uploadFile(cvFile, {
           folder: 'tutor_cvs',
@@ -64,7 +64,7 @@ export class AuthService {
               ? {
                   create: {
                     fullName: dto.fullName,
-                    cv: cvUploadResult?.secure_url,
+                    cv: cvUploadResult?.secure_url|| "",
                     isVerified: false, // Tutors start as unverified
                   },
                 }

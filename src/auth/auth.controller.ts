@@ -42,11 +42,7 @@ async register(
     })
   ) cv?: Express.Multer.File
 ) {
-  console.log({cv})
-  // Explicit validation for tutors
-  if (dto.role === 'TUTOR' && !cv) {
-    throw new BadRequestException('CV is required for tutors');
-  }
+  
 
   return this.authService.register(dto, cv);
 }
