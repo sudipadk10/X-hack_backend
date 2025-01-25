@@ -11,7 +11,7 @@ export class UserService {
       include: {
         user: {
           select: {
-            email: true,
+            
             role: true,
           },
         },
@@ -23,7 +23,7 @@ export class UserService {
     const { user, ...profileData } = profile;
     return {
       ...profileData,
-      email: user.email,
+      
       role: user.role,
     };
   }

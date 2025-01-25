@@ -9,11 +9,13 @@ export class TutorController {
   constructor(private tutorService: TutorService) {}
 
   @Get()
+  @UseGuards(AuthGuard)
   async getAllTutors() {
     return this.tutorService.getAllTutors();
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
   async getTutorById(@Param('id') id: string) {
     return this.tutorService.getTutorById(id);
   }
