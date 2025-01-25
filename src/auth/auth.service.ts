@@ -17,7 +17,7 @@ export class AuthService {
   ) {}
   async login(dto: LoginDto) {
     const user = await this.prisma.user.findUnique({
-      where: { phone: dto.phone },
+      where: { phone: dto.phone ,role:dto.role},
     });
 
     if (!user) {
@@ -27,7 +27,7 @@ export class AuthService {
     if (!verified) {
       throw new UnauthorizedException();
     }
-    const payload = { sub: user.id, phone: user.phone };
+    const payload = { sub: user.id, phone: user.phone ,role:user.role};
     const access_token = this.jwtService.sign(payload);
 
     return { access_token };
