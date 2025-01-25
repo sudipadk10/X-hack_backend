@@ -51,6 +51,8 @@ model Profile {
   Article     Article[]
   isVerified Boolean @default(false)
   cv    String?
+
+  Rating Rating[] @relation(name: "tutor")
 }
 
 model Article {
@@ -66,8 +68,10 @@ model Article {
 model Rating {
   id        String   @id @default(cuid())
   tutorId   String
+  studentId String
   value     Int
   comment   String?
-  tutor     Profile  @relation(fields: [tutorId], references: [id])
+  tutor     Profile  @relation(name:"tutor",fields: [tutorId], references: [userId])
+  student   Profile  @relation(fields: [studentId], references: [userId])
   createdAt DateTime @default(now())
 }
