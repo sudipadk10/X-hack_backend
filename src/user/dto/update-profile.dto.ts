@@ -14,10 +14,8 @@ export class UpdateProfileDto {
   basePrice: number;
 
   @IsString()
-  @IsNotEmpty()
   firstName: string;
 
   @IsString()
-  @IsNotEmpty()
   lastName: string;
 }
