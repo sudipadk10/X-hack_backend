@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class LoginDto {
@@ -9,4 +10,9 @@ export class LoginDto {
   @IsNotEmpty()
   @MinLength(6)
   password: string;
+
+  @Transform(({ value }) => value.toUpperCase())
+  @IsString()
+  @IsNotEmpty()
+  role: 'STUDENT' | 'TUTOR';
 }
