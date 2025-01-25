@@ -11,16 +11,16 @@ export class TutorService {
       where: { user: { role: 'TUTOR' } },
       select: {
         id: true,
-        fullName:true,
+        fullName: true,
         subject: true,
         basePrice: true,
         description: true,
         ratings: {
           select: {
-            value: true
-          }
-        }
-      }
+            value: true,
+          },
+        },
+      },
     });
   }
 
@@ -36,10 +36,10 @@ export class TutorService {
         ratings: {
           select: {
             value: true,
-            comment: true
-          }
-        }
-      }
+            comment: true,
+          },
+        },
+      },
     });
   }
 
@@ -48,15 +48,20 @@ export class TutorService {
       data: {
         title: dto.title,
         content: dto.content,
-        authorId: userId
-      }
+        authorId: userId,
+      },
     });
   }
 
   async getTutorArticles(userId: string) {
     return this.prisma.article.findMany({
       where: { authorId: userId },
-      orderBy: { createdAt: 'desc' }
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+  async getAllTutorArticles() {
+    return this.prisma.article.findMany({
+      orderBy: { createdAt: 'desc' },
     });
   }
 }
