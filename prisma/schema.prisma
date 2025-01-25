@@ -76,7 +76,7 @@ model Profile {
   Article     Article[]
   isVerified Boolean @default(false)
   cv    String?
-studentBookings Booking[] @relation("StudentBookings")
+  studentBookings Booking[] @relation("StudentBookings")
   tutorBookings   Booking[] @relation("TutorBookings")
   Rating Rating[] @relation(name: "tutor")
 }
