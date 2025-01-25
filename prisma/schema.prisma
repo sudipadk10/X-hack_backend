@@ -49,6 +49,8 @@ model Profile {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   Article     Article[]
+  isVerified Boolean @default(false)
+  cvUrl     String?
 }
 
 model Article {

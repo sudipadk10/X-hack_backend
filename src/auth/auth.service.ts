@@ -40,14 +40,14 @@ export class AuthService {
 
     const user = await this.prisma.user.create({
       data: {
-        email: dto.email,
+        
         gender: dto.gender,
         password: hashedPassword,
         phone: dto.phone,
         role: dto.role,
         profile: {
           create: {
-            firstName: dto.fullName,
+            fullName: dto.fullName,
           },
         },
       },
@@ -57,7 +57,7 @@ export class AuthService {
     catch(error){
       if (error instanceof PrismaClientKnownRequestError){
         if(error.code==='P2002'){
-          throw new ConflictException("Email or Phone already taken.");
+          throw new ConflictException("Phone already taken.");
         }
       }
     
