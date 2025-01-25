@@ -37,6 +37,31 @@ enum Role {
   TUTOR
 }
 
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model Booking {
+  id            String        @id @default(cuid())
+  studentId     String
+  tutorId       String
+  student       Profile       @relation("StudentBookings", fields: [studentId], references: [userId])
+  tutor         Profile       @relation("TutorBookings", fields: [tutorId], references: [userId])
+  date          DateTime
+  startTime     DateTime
+  endTime       DateTime
+  status        BookingStatus @default(PENDING)
+  subject       String
+  price         Float
+  description   String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+
 model Profile {
   id          String    @id @default(cuid())
   userId      String    @unique
@@ -51,7 +76,8 @@ model Profile {
   Article     Article[]
   isVerified Boolean @default(false)
   cv    String?
-
+studentBookings Booking[] @relation("StudentBookings")
+  tutorBookings   Booking[] @relation("TutorBookings")
   Rating Rating[] @relation(name: "tutor")
 }
 
