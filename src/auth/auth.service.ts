@@ -52,7 +52,11 @@ export class AuthService {
             isVerified: false, // Tutors start as unverified
             
           }
-        } : undefined
+        } : {create: {
+          fullName: dto.fullName,
+          isVerified: true, // Students start as verified
+          
+        }}
       },
     });
     delete user.password;
