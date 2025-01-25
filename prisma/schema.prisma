@@ -50,7 +50,7 @@ model Profile {
   updatedAt   DateTime  @updatedAt
   Article     Article[]
   isVerified Boolean @default(false)
-  cvUrl     String?
+  cv    String?
 }
 
 model Article {

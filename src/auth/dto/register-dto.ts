@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class RegisterDto {
@@ -16,6 +16,10 @@ export class RegisterDto {
   @IsNotEmpty()
   phone: string;
 
+  @IsOptional()
+  @IsString()
+  cv:string;
+
   @Transform(({ value }) => value.toUpperCase())
   @IsString()
   @IsNotEmpty()
@@ -25,4 +29,6 @@ export class RegisterDto {
   @IsString()
   @IsNotEmpty()
   gender: 'MALE' | 'FEMALE';
+
+
 }

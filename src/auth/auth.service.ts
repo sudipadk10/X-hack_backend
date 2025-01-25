@@ -45,11 +45,14 @@ export class AuthService {
         password: hashedPassword,
         phone: dto.phone,
         role: dto.role,
-        profile: {
+        profile: dto.role === 'TUTOR' ? {
           create: {
             fullName: dto.fullName,
-          },
-        },
+            cv: dto.cv,
+            isVerified: false, // Tutors start as unverified
+            
+          }
+        } : undefined
       },
     });
     delete user.password;
