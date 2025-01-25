@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  db:
+    image: postgres
+    container_name: hackathon
+    ports:
+      - 5434:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: hack
+      POSTGRES_PASSWORD: 12345
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
